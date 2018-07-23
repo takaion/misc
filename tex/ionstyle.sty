@@ -1,0 +1,32 @@
+% よく使うパッケージの読み込み (\usepackage{ionstyle}で全部できる)
+\usepackage{amsmath,amsfonts,listings,jlisting,float,ioncommand}
+
+\lstset{%
+  language={C},
+  basicstyle={\small\ttfamily},%
+  identifierstyle={\small},%
+  commentstyle={\small\itshape},%
+  keywordstyle={\small\bfseries},%
+  ndkeywordstyle={\small},%
+  stringstyle={\small\ttfamily},
+  frame={tb},
+  breaklines=true,
+  columns=[l]{fullflexible},%
+  numbers=left,%
+  xrightmargin=0zw,%
+  xleftmargin=3zw,%
+  numberstyle={\scriptsize},%
+  stepnumber=1,
+  numbersep=1zw,%
+  lineskip=-0.5ex%
+}
+
+\ProvidesPackage{ionstyle}[2018/07/23]
+
+% 図表の番号を セクション番号.セクション内図表番号 にする
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+%\def\overcite#1#2{$^{\mbox{\tiny[{#1\if@tempswa , #2\fi}]}}$}
+\@addtoreset{figure}{section}
+\@addtoreset{table}{section}
+

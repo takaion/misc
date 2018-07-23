@@ -1,0 +1,29 @@
+% 見た目を変えない，コマンド集
+\ProvidesPackage{ioncommand}[2018/07/23]
+
+% base, hex, bin, dec: n進数の表示を楽にする
+% base: 数値{1}を{2}進数として表示する
+\newcommand{\base}[2]{\ifmmode \mathrm{#1}_{(#2)} \else $\rm{#1}_{(#2)}$ \fi }
+% bin: 数値{1}を2進数として表示する
+\newcommand{\bin}[1]{\base{#1}{2}}
+% oct: 数値{1}を8進数として表示する
+\newcommand{\oct}[1]{\base{#1}{8}}
+% dec: 数値{1}を10進数として表示する
+\newcommand{\dec}[1]{\base{#1}{10}}
+% hex: 数値{1}を16進数として表示する
+\newcommand{\hex}[1]{\base{#1}{16}}
+
+% figref, tabref, eqref: 図表および式の参照を楽にする
+% 図の場合は「fig:」，表の場合は「tab:」，式の場合は「eq:」のプレフィックスを
+% それぞれのlabelにつける必要がある．
+\newcommand{\figref}[1]{図\ref{fig:#1}}
+\newcommand{\tabref}[1]{表\ref{tab:#1}}
+\@ifundefined{eqref}{%
+    \newcommand{\eqref}[1]{式(\ref{eq:#1})}%
+}{%
+    \renewcommand{\eqref}[1]{式(\ref{eq:#1})}%
+}
+
+% overcite: 引用番号の表示を右上にする
+\newcommand{\overcite}[1]{$^{\mbox{\tiny\cite{#1}}}$}
+
