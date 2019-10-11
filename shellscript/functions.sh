@@ -63,6 +63,7 @@ download() {
   set -eu
   if [ -x "`which curl 2>/dev/null`" ] ; then
     local downloader_bin="curl -s"
+    local common_opt="-L"
     if [ -z "$out" ] ; then
       local output_opt="-O"
     else
@@ -70,6 +71,7 @@ download() {
     fi
   elif [ -x "`which wget 2>/dev/null`" ] ; then
     local downloader_bin="wget -q"
+    local common_opt="-L"
     if [ -z "$out" ] ; then
       local output_opt="-o"
     else
@@ -78,6 +80,6 @@ download() {
   else
     error_exit "No downloader command found"
   fi
-  debug "$downloader_bin $output_opt \"$src\""
-  $downloader_bin $output_opt "$src"
+  debug "$downloader_bin $output_opt $common_opt \"$src\""
+  $downloader_bin $output_opt $common_opt "$src"
 }
