@@ -1,0 +1,46 @@
+#!/bin/bash
+
+SHORT_DESCTIPTION="takaion Server"
+LONG_DESCRIPTION=""
+
+MOTD_STR=""
+
+add_motd_str() {
+  if [ -x "$MOTD_STR" ] ; then
+    MOTD_STR=$1
+  else
+    MOTD_STR="$MOTD_STR\n$1"
+  fi
+}
+
+add_header() {
+  add_motd_str "$SHORT_DESCTIPTION [$(hostname)] (motd updated at $(date "+%Y/%m/%d %T"))"
+  if [ ! -z "$LONG_DESCRIPTION" ] ; then
+    add_motd_str "$LONG_DESCRIPTION"
+  fi
+  add_motd_str ""
+}
+
+add_dnf_check_update() {
+  local temp=$(LANGUAGE=C.utf8 dnf -q -y check-update | tail -n+2)
+  dnf -q -y check-update >/dev/null 2>&1
+  local result=$?
+  local normal=$(echo "$temp" | sed -n '/Obsoleting Packages/,$!p')
+  local obsoleting=$(echo "$temp" | sed -n '/Obsoleting Packages/,$p' | tail -n+2)
+  if [ $result = 100 ] ; then
+    local lines=$(echo "$temp" | tr -s ' ' | tr ' ' '\n' | wc -l)
+    local n_normal=$(echo "$normal" | wc -l)
+    local n_obsoleting=$(echo "$obsoleting" | wc -l)
+    add_motd_str "There are $(( (n_normal + n_obsoleting) )) upgradable package(s)"
+    add_motd_str "    Normal update: $n_normal, Obsoleting: $n_obsoleting"
+  elif [ $result = 0 ] ; then
+    add_motd_str "There is no upgradable packages"
+  else 
+    add_motd_str "Upgradable-packages check failed with code $result"
+  fi
+}
+
+add_header
+add_dnf_check_update
+
+echo -e "$MOTD_STR" >/etc/motd
