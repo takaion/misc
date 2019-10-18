@@ -83,3 +83,22 @@ download() {
   debug "$downloader_bin $output_opt $common_opt \"$src\""
   $downloader_bin $output_opt $common_opt "$src"
 }
+
+file_exists() {
+  local filename=$1
+  if [ -f "$filename" ] ; then
+    echo 1
+    return 0
+  fi
+  echo 0
+  return 1
+}
+
+is_debian() {
+  file_exists "/etc/debian_version" "$@"
+}
+
+is_rhel() {
+  file_exists "/etc/redhat-release" "$@"
+}
+
