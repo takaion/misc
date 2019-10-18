@@ -30,5 +30,6 @@ if [ $result != 0 ] ; then
   error_exit "make failed with code $result"
 fi
 set -e
+make install
 
 cd $current_dir
