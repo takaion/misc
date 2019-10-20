@@ -12,7 +12,8 @@ print_gop() {
   input=$1
   echo "First Group Of Pictures: $input"
   result=$(get_gop_str "$input")
-  echo "GOP Length: $(echo $result | wc -c)"
+  len=$(echo $result | wc -c)
+  echo "GOP Length: $(( len - 1 ))"
   echo $result
 }
 
