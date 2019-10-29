@@ -22,4 +22,12 @@ if ! which arping >/dev/null 2>&1; then
   echo 'arping command not found'
   exit 1
 fi
-notify_ip
+
+s_times=${1:-1}
+s_interval=${2:-1}
+
+for i in $(seq $s_times); do
+  notify_ip
+  sleep $s_interval
+done
+
